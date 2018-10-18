@@ -6,6 +6,8 @@
 + [Bootstrap 4.1.3](https://getbootstrap.com/docs/4.1/getting-started/introduction/)
 + [jQuery 3.1.1 (*required for Bootstrap*)](https://jquery.com/download/)
 + [Fixer.io - *Foreign Exchange*](https://fixer.io)
++ [Consuming third party APIs with Laravel Resources](https://medium.com/@jeffochoa/consuming-third-pary-apis-with-laravel-resources-c13a0c7dc945)
++ [Laravel 5 Repository Pattern Tutorial from scratch](https://itsolutionstuff.com/post/laravel-5-repository-pattern-tutorial-from-scratchexample.html)
 
 ## 3 Unique inputs
 1. Select input used to choose currencies to convert from and to.
@@ -14,10 +16,12 @@
 
 
 ## Packages
-*List the name of any packages you add to your project that do not come with Laravel by default; this should include, but is not limited to, barryvdh/laravel-debugbar*
++ [barryvdh/laravel-debugbar](https://github.com/barryvdh/laravel-debugbar)
++ [guzzlehttp/guzzle](https://packagist.org/packages/guzzlehttp/guzzle)
+
 
 ## Code style divergences
-*list any divergences from PSR-1/PSR-2 and course guidelines on code style*
+*None*
 
 ## Notes for instructor
-*Any notes for me to refer to while grading; if none, omit this section*
+*None*
