@@ -133,29 +133,10 @@ class ForeignExchangeRepository
     {
         $url = $this->buildTimeSeriesEndpointURL();
 
-        /*
-        $ch = curl_init();
-
-        // Set the url, number of GET vars, GET data
-        curl_setopt($ch, CURLOPT_URL, $url);
-        curl_setopt($ch, CURLOPT_POST, false);
-        curl_setopt($ch, CURLOPT_HTTPHEADER, ['Content-Type: application/json']);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-
-        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-
         // Execute request
-        $result = curl_exec($ch);
-
-        // Close connection
-        curl_close($ch);
-        */
-
         $response = $this->client->get($this->buildTimeSeriesEndpointURL());
 
         // get the result and parse to JSON
-        //$result_arr = json_decode($result, true);
-
         return json_decode($response->getBody());
     }
 
@@ -203,6 +184,10 @@ class ForeignExchangeRepository
      */
     public static function getSupportedSymbols()
     {
+        // Create new Guzzle client
+        $client = new Client(['base_uri' => ForeignExchangeRepository::FIXER_API_BASE_URL]);
+
+        // Build endpoint URL
         $endPoint = ForeignExchangeRepository::FIXER_API_SYMBOLS_ENPOINT_URL;
 
         $query = [
@@ -211,24 +196,11 @@ class ForeignExchangeRepository
 
         $endPoint .= ('?' . http_build_query($query));
 
-        $ch = curl_init();
-
-        // Set the url, number of GET vars, GET data
-        curl_setopt($ch, CURLOPT_URL, $endPoint);
-        curl_setopt($ch, CURLOPT_POST, false);
-        curl_setopt($ch, CURLOPT_HTTPHEADER, ['Content-Type: application/json']);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-
-        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-
         // Execute request
-        $result = curl_exec($ch);
-
-        // Close connection
-        curl_close($ch);
+        $result = $client->get($endPoint);
 
         // get the result and parse to JSON
-        $result_arr = json_decode($result, true);
+        $result_arr = json_decode($result->getBody(), true);
 
         return (isset($result_arr) && ($result_arr['success'] == 'true')) ? $result_arr["symbols"] : [];
     }

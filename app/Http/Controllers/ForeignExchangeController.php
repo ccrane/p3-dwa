@@ -3,15 +3,18 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Repository\ForeignExchangeRepository;
 
 class ForeignExchangeController extends Controller
 {
     public function index() {
-        return "main foreign exchange view";
+        return view("index")->with([
+        'supportedSymbols' => ForeignExchangeRepository::getSupportedSymbols(),
+        'hasErrors' => false
+        ]);
     }
 
     public function convert() {
-        return "conversion process and redirect to main";
+        return view("index");
     }
-
 }

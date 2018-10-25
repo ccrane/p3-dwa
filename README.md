@@ -8,6 +8,7 @@
 + [Fixer.io - *Foreign Exchange*](https://fixer.io)
 + [Consuming third party APIs with Laravel Resources](https://medium.com/@jeffochoa/consuming-third-pary-apis-with-laravel-resources-c13a0c7dc945)
 + [Laravel 5 Repository Pattern Tutorial from scratch](https://itsolutionstuff.com/post/laravel-5-repository-pattern-tutorial-from-scratchexample.html)
++ [Foreign Exchange Logo](http://www.fx-inn.com/trading-products/foreign-exchange/)
 
 ## 3 Unique inputs
 1. Select input used to choose currencies to convert from and to.
