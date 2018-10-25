@@ -5,7 +5,7 @@
         <div class="row justify-content-center my-5">
             <div class="col-5">
                 <div class="card">
-                    <h3 class="card-header text-center"><img id="logo" src='{{ asset("images/foreignexchange-logo@2x.png") }}' />Currency Converter</h3>
+                    <h3 class="card-header text-center"><img id="logo" src='{{ asset("images/foreignexchange-logo@2x.png") }}' />{{ config('APP_NAME', 'Currency Converter') }}</h3>
                     <div class="card-body">
                         <h5 class="card-title">Go ahead, give it a try!</h5>
                         <p class="card-text">
