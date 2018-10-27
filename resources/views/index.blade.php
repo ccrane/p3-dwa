@@ -5,7 +5,9 @@
         <div class="row justify-content-center my-5">
             <div class="col-5">
                 <div class="card">
-                    <h3 class="card-header text-center"><img id="logo" src='{{ asset("images/foreignexchange-logo@2x.png") }}' />{{ config('APP_NAME', 'Currency Converter') }}</h3>
+                    <h3 class="card-header text-center"><img id="logo"
+                                                             src='{{ asset("images/foreignexchange-logo@2x.png") }}'/>{{ config('APP_NAME', 'Currency Converter') }}
+                    </h3>
                     <div class="card-body">
                         <h5 class="card-title">Go ahead, give it a try!</h5>
                         <p class="card-text">
@@ -18,18 +20,18 @@
                                 <label for="convertFrom">From:<span class='text-danger'>&nbsp;*</span></label>
                                 <select class="form-control" id="convertFrom" name="convertFrom" required>
                                     <option value=""> --- Select Currency ---</option>
-                                    <?php foreach ($supportedSymbols as $symbol => $name) : ?>
-                                    <option value="<?= $symbol ?>" <?= (isset($convertFrom) && ($convertFrom == $symbol)) ? " selected" : "" ?>><?= $name ?> (<?= $symbol ?>)</option>
-                                    <?php endforeach; ?>
+                                    @foreach ($supportedSymbols as $symbol => $name)
+                                        <option value="{{ $symbol }}" {{ (isset($convertFrom) && ($convertFrom == $symbol)) ? " selected" : "" }}>{{ $name }} ({{ $symbol }})</option>
+                                    @endforeach
                                 </select>
                             </div>
                             <div class="form-group">
                                 <label for="convertTo">To:<span class='text-danger'>&nbsp;*</span></label>
                                 <select class="form-control" id="convertTo" name="convertTo" required>
                                     <option value=""> --- Select Currency ---</option>
-                                    <?php foreach ($supportedSymbols as $symbol => $name) : ?>
-                                    <option value="<?= $symbol ?>"<?= (isset($convertTo) && ($convertTo == $symbol)) ? " selected" : "" ?>><?= $name ?> (<?= $symbol ?>)</option>
-                                    <?php endforeach; ?>
+                                    @foreach ($supportedSymbols as $symbol => $name)
+                                        <option value="{{ $symbol }}"{{ (isset($convertTo) && ($convertTo == $symbol)) ? " selected" : "" }}>{{ $name }} ({{ $symbol }})</option>
+                                    @endforeach
                                 </select>
                             </div>
                             <div class="form-group">
@@ -43,7 +45,7 @@
                                            id="amountToConvert"
                                            name="amountToConvert"
                                            min="1"
-                                           value="<?= isset($amountToConvert) ? sanitize($amountToConvert) : "1.00" ?>"
+                                           value="{{ isset($amountToConvert) ? $amountToConvert : "1.00" }}"
                                            required>
                                 </div>
                             </div>
@@ -55,8 +57,7 @@
                                            id="dailyAverage"
                                            name="period"
                                            value="Daily"
-                                           required
-                                    <?= (isset($period) && (strtoupper($period) == 'DAILY')) ? " checked" : "" ?>>
+                                           required {{ (isset($period) && (strtoupper($period) == 'DAILY')) ? " checked" : "" }}>
                                     <label class="form-check-label" for="dailyAverage">Daily</label>
                                 </div>
                                 <div class="form-check form-check-inline">
@@ -65,7 +66,7 @@
                                            id="weeklyAverage"
                                            name="period"
                                            required
-                                           value="Weekly" <?= (isset($period) && (strtoupper($period) == 'WEEKLY')) ? " checked" : "" ?>>
+                                           value="Weekly" {{ (isset($period) && (strtoupper($period) == 'WEEKLY')) ? " checked" : "" }}>
                                     <label class="form-check-label" for="weeklyAverage">Weekly</label>
                                 </div>
                                 <div class="form-check form-check-inline">
@@ -74,7 +75,7 @@
                                            id="monthlyAverage"
                                            name="period"
                                            required
-                                           value="Monthly" <?= (isset($period) && (strtoupper($period) == 'MONTHLY')) ? " checked" : "" ?>>
+                                           value="Monthly" {{ (isset($period) && (strtoupper($period) == 'MONTHLY')) ? " checked" : "" }}>
                                     <label class="form-check-label" for="monthlyAverage">Monthly</label>
                                 </div>
                                 <div class="form-check form-check-inline">
@@ -83,7 +84,7 @@
                                            id="sixMonthAverage"
                                            name="period"
                                            required
-                                           value="Six Month" <?= (isset($period) && (strtoupper($period) == 'SIX MONTH')) ? " checked" : "" ?>>
+                                           value="Six Month" {{ (isset($period) && (strtoupper($period) == 'SIX MONTH')) ? " checked" : "" }}>
                                     <label class="form-check-label" for="sixMonthAverage">Six Months</label>
                                 </div>
                                 <div class="form-check form-check-inline">
@@ -92,7 +93,7 @@
                                            id="yearlyAverage"
                                            name="period"
                                            required
-                                           value="Yearly" <?= (isset($period) && (strtoupper($period) == 'YEARLY')) ? " checked" : "" ?>>
+                                           value="Yearly" {{ (isset($period) && (strtoupper($period) == 'YEARLY')) ? " checked" : "" }}>
                                     <label class="form-check-label" for="yearlyAverage">Yearly</label>
                                 </div>
                             </div>
@@ -100,32 +101,32 @@
                                 <button type="submit" name="convert" class="btn btn-outline-primary">Convert</button>
                             </div>
                         </form>
-                        <?php if ($hasErrors): ?>
-                        <div class='alert alert-danger mb-3' role="alert">
-                            <h4>Errors</h4>
-                            <hr>
-                            <ul>
-                                <?php foreach ($errors as $error): ?>
-                                <li><?= $error ?></li>
-                                <?php endforeach; ?>
-                            </ul>
-                        </div>
-                        <?php endif ?>
-                        <?php if (isset($results) && !$hasErrors): ?>
-                        <div class="alert alert-success mb-3" role="alert">
-                            <h4>Success!</h4>
-                            <hr>
-                            <p class="text-center">
-                                Using the
-                                <strong><?= $period ?></strong> average exchange rate
-                                <strong><?= $results["averageConversionRate"] ?></strong>
-                            </p>
-                            <p class="text-center">
-                                <strong><?= $amountToConvert . " " . $convertFrom ?></strong> is equivalent to
-                                <strong><?= number_format($results["convertedAmount"], 2) ?> <?= $convertTo ?></strong>
-                            </p>
-                        </div>
-                        <?php endif; ?>
+                        @if ($hasErrors)
+                            <div class='alert alert-danger mb-3' role="alert">
+                                <h4>Errors</h4>
+                                <hr>
+                                <ul>
+                                    @foreach ($errors as $error)
+                                        <li>{{ $error }}</li>
+                                    @endforeach
+                                </ul>
+                            </div>
+                        @endif
+                        @if (isset($results) && !$hasErrors)
+                            <div class="alert alert-success mb-3" role="alert">
+                                <h4>Success!</h4>
+                                <hr>
+                                <p class="text-center">
+                                    Using the
+                                    <strong>{{ $period }}</strong> average exchange rate
+                                    <strong>{{ $results["averageConversionRate"] }}</strong>
+                                </p>
+                                <p class="text-center">
+                                    <strong>{{ $amountToConvert . " " . $convertFrom }}</strong> is equivalent to
+                                    <strong>{{ number_format($results["convertedAmount"], 2) }} {{ $convertTo }}</strong>
+                                </p>
+                            </div>
+                        @endif
                     </div>
                 </div>
             </div>
