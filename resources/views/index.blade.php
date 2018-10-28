@@ -5,8 +5,9 @@
         <div class="row justify-content-center my-5">
             <div class="col-5">
                 <div class="card">
-                    <h3 class="card-header text-center"><img id="logo"
-                                                             src='{{ asset("images/foreignexchange-logo@2x.png") }}'/>{{ config('APP_NAME', 'Currency Converter') }}
+                    <h3 class="card-header text-center">
+                        <img id="logo"
+                             src='{{ asset("images/foreignexchange-logo@2x.png") }}'/>{{ config('APP_NAME', 'Currency Converter') }}
                     </h3>
                     <div class="card-body">
                         <h5 class="card-title">Go ahead, give it a try!</h5>
@@ -16,21 +17,33 @@
                         </p>
                         <p class="card-text font-italic text-center text-danger">* Required fields.</p>
                         <form action="/convert" method="POST">
+                            {{ csrf_field() }}
+
                             <div class="form-group">
                                 <label for="convertFrom">From:<span class='text-danger'>&nbsp;*</span></label>
                                 <select class="form-control" id="convertFrom" name="convertFrom" required>
-                                    <option value=""> --- Select Currency ---</option>
+                                    <option value="">--- Select Currency ---</option>
                                     @foreach ($supportedSymbols as $symbol => $name)
-                                        <option value="{{ $symbol }}" {{ (isset($convertFrom) && ($convertFrom == $symbol)) ? " selected" : "" }}>{{ $name }} ({{ $symbol }})</option>
+                                        <option value="{{ $symbol }}"
+                                            @include('modules.selectedoption', [
+                                                'field' => 'convertFrom',
+                                                'value' => $symbol])>
+                                            {{ $name }} ({{ $symbol }})
+                                        </option>
                                     @endforeach
                                 </select>
                             </div>
                             <div class="form-group">
                                 <label for="convertTo">To:<span class='text-danger'>&nbsp;*</span></label>
                                 <select class="form-control" id="convertTo" name="convertTo" required>
-                                    <option value=""> --- Select Currency ---</option>
+                                    <option value="">--- Select Currency ---</option>
                                     @foreach ($supportedSymbols as $symbol => $name)
-                                        <option value="{{ $symbol }}"{{ (isset($convertTo) && ($convertTo == $symbol)) ? " selected" : "" }}>{{ $name }} ({{ $symbol }})</option>
+                                        <option value="{{ $symbol }}"
+                                            @include('modules.selectedoption', [
+                                                'field' => 'convertTo',
+                                                'value' => $symbol])>
+                                            {{ $name }} ({{ $symbol }})
+                                        </option>
                                     @endforeach
                                 </select>
                             </div>
@@ -45,7 +58,7 @@
                                            id="amountToConvert"
                                            name="amountToConvert"
                                            min="1"
-                                           value="{{ isset($amountToConvert) ? $amountToConvert : "1.00" }}"
+                                           value="{{ (old('amountToConvert', null) != null) ? old('amountToConvert') : (isset($amountToConvert) ? $amountToConvert : "1.00") }}"
                                            required>
                                 </div>
                             </div>
@@ -57,7 +70,10 @@
                                            id="dailyAverage"
                                            name="period"
                                            value="Daily"
-                                           required {{ (isset($period) && (strtoupper($period) == 'DAILY')) ? " checked" : "" }}>
+                                           required
+                                        @include('modules.checkedoption', [
+                                            'field' => 'period',
+                                            'value' => 'Daily'])>
                                     <label class="form-check-label" for="dailyAverage">Daily</label>
                                 </div>
                                 <div class="form-check form-check-inline">
@@ -66,7 +82,10 @@
                                            id="weeklyAverage"
                                            name="period"
                                            required
-                                           value="Weekly" {{ (isset($period) && (strtoupper($period) == 'WEEKLY')) ? " checked" : "" }}>
+                                           value="Weekly"
+                                        @include('modules.checkedoption', [
+                                            'field' => 'period',
+                                            'value' => 'Weekly'])>
                                     <label class="form-check-label" for="weeklyAverage">Weekly</label>
                                 </div>
                                 <div class="form-check form-check-inline">
@@ -75,7 +94,10 @@
                                            id="monthlyAverage"
                                            name="period"
                                            required
-                                           value="Monthly" {{ (isset($period) && (strtoupper($period) == 'MONTHLY')) ? " checked" : "" }}>
+                                           value="Monthly"
+                                        @include('modules.checkedoption', [
+                                           'field' => 'period',
+                                          'value' => 'Monthly'])>
                                     <label class="form-check-label" for="monthlyAverage">Monthly</label>
                                 </div>
                                 <div class="form-check form-check-inline">
@@ -84,7 +106,10 @@
                                            id="sixMonthAverage"
                                            name="period"
                                            required
-                                           value="Six Month" {{ (isset($period) && (strtoupper($period) == 'SIX MONTH')) ? " checked" : "" }}>
+                                           value="Six Month"
+                                        @include('modules.checkedoption', [
+                                            'field' => 'period',
+                                            'value' => 'Six Month'])>
                                     <label class="form-check-label" for="sixMonthAverage">Six Months</label>
                                 </div>
                                 <div class="form-check form-check-inline">
@@ -93,7 +118,10 @@
                                            id="yearlyAverage"
                                            name="period"
                                            required
-                                           value="Yearly" {{ (isset($period) && (strtoupper($period) == 'YEARLY')) ? " checked" : "" }}>
+                                           value="Yearly"
+                                        @include('modules.checkedoption', [
+                                        'field' => 'period',
+                                        'value' => 'Yearly'])>
                                     <label class="form-check-label" for="yearlyAverage">Yearly</label>
                                 </div>
                             </div>
@@ -101,29 +129,28 @@
                                 <button type="submit" name="convert" class="btn btn-outline-primary">Convert</button>
                             </div>
                         </form>
-                        @if ($hasErrors)
+                        @if ($errors->any())
                             <div class='alert alert-danger mb-3' role="alert">
                                 <h4>Errors</h4>
                                 <hr>
                                 <ul>
-                                    @foreach ($errors as $error)
+                                    @foreach ($errors->all() as $error)
                                         <li>{{ $error }}</li>
                                     @endforeach
                                 </ul>
                             </div>
-                        @endif
-                        @if (isset($results) && !$hasErrors)
+                        @elseif ($convertedAmount > 0)
                             <div class="alert alert-success mb-3" role="alert">
                                 <h4>Success!</h4>
                                 <hr>
                                 <p class="text-center">
                                     Using the
                                     <strong>{{ $period }}</strong> average exchange rate
-                                    <strong>{{ $results["averageConversionRate"] }}</strong>
+                                    <strong>{{ $averageConversionRate }}</strong>
                                 </p>
                                 <p class="text-center">
                                     <strong>{{ $amountToConvert . " " . $convertFrom }}</strong> is equivalent to
-                                    <strong>{{ number_format($results["convertedAmount"], 2) }} {{ $convertTo }}</strong>
+                                    <strong>{{ number_format($convertedAmount, 2) }} {{ $convertTo }}</strong>
                                 </p>
                             </div>
                         @endif

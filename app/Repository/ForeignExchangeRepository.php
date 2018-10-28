@@ -137,7 +137,7 @@ class ForeignExchangeRepository
         $response = $this->client->get($this->buildTimeSeriesEndpointURL());
 
         // get the result and parse to JSON
-        return json_decode($response->getBody());
+        return json_decode($response->getBody(), true);
     }
 
     /**
