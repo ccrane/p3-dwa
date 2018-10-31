@@ -2,3 +2,11 @@
     width: 10%;
     margin-right: 15px;
 }
+
+.input-group > .input-group-prepend {
+    width: 25%;
+}
+
+.input-group > .input-group-prepend > .input-group-text {
+    width: 100%;
+}

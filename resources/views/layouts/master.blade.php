@@ -42,6 +42,9 @@
         integrity="sha384-pjaaA8dDz/5BgdFUPX6M/9SUZv4d12SUPF0axWc+VRZkx5xU3daN+lYb49+Ax+Tl"
         crossorigin="anonymous"></script>
 
+{{-- App specific JS--}}
+<script type='text/javascript' src='{{ asset("js/foreignexchange.js") }}'></script>
+
 {{-- JS specific to a given page/child view can be included via a stack --}}
 @stack('body')
 

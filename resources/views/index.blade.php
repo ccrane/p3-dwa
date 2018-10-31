@@ -4,7 +4,7 @@
     <div class="container-fluid">
         <div class="row justify-content-center my-5">
             <div class="col-5">
-                <div class="card">
+                <div class="card shadow-lg rounded">
                     <h3 class="card-header text-center">
                         <img id="logo"
                              src='{{ asset("images/foreignexchange-logo@2x.png") }}'/>{{ config('APP_NAME', 'Currency Converter') }}
@@ -20,38 +20,50 @@
                             {{ csrf_field() }}
 
                             <div class="form-group">
-                                <label for="convertFrom">From:<span class='text-danger'>&nbsp;*</span></label>
-                                <select class="form-control" id="convertFrom" name="convertFrom" required>
-                                    <option value="">--- Select Currency ---</option>
-                                    @foreach ($supportedSymbols as $symbol => $name)
-                                        <option value="{{ $symbol }}"
-                                            @include('modules.selectedoption', [
-                                                'field' => 'convertFrom',
-                                                'value' => $symbol])>
-                                            {{ $name }} ({{ $symbol }})
-                                        </option>
-                                    @endforeach
-                                </select>
-                            </div>
-                            <div class="form-group">
-                                <label for="convertTo">To:<span class='text-danger'>&nbsp;*</span></label>
-                                <select class="form-control" id="convertTo" name="convertTo" required>
-                                    <option value="">--- Select Currency ---</option>
-                                    @foreach ($supportedSymbols as $symbol => $name)
-                                        <option value="{{ $symbol }}"
-                                            @include('modules.selectedoption', [
-                                                'field' => 'convertTo',
-                                                'value' => $symbol])>
-                                            {{ $name }} ({{ $symbol }})
-                                        </option>
-                                    @endforeach
-                                </select>
-                            </div>
-                            <div class="form-group">
-                                <label for="amountToConvert">Amount:<span class='text-danger'>&nbsp;*</span></label>
                                 <div class="input-group mb-3">
                                     <div class="input-group-prepend">
-                                        <span class="input-group-text">$</span>
+                                        <label class="input-group-text justify-content-end"
+                                               for="convertFrom">From:<span class='text-danger'>&nbsp;*</span></label>
+                                    </div>
+                                    <select class="custom-select" id="convertFrom" name="convertFrom" required>
+                                        <option value="">--- Select Currency ---</option>
+                                        @foreach ($supportedSymbols as $symbol => $name)
+                                            <option value="{{ $symbol }}"
+                                                @include('modules.selectedoption', [
+                                                    'field' => 'convertFrom',
+                                                    'value' => $symbol])>
+                                                {{ $name }} ({{ $symbol }})
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <div class="input-group mb-3">
+                                    <div class="input-group-prepend">
+                                        <label class="input-group-text justify-content-end"
+                                               for="convertTo">To:<span class='text-danger'>&nbsp;*</span></label>
+                                    </div>
+                                    <select class="custom-select" id="convertTo" name="convertTo" required>
+                                        <option value="">--- Select Currency ---</option>
+                                        @foreach ($supportedSymbols as $symbol => $name)
+                                            <option value="{{ $symbol }}"
+                                                @include('modules.selectedoption', [
+                                                    'field' => 'convertTo',
+                                                    'value' => $symbol])>
+                                                {{ $name }} ({{ $symbol }})
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <div class="input-group mb-3">
+                                    <div class="input-group-prepend">
+                                        <label class="input-group-text justify-content-end"
+                                               for='amountToConvert'>Amount:<span class='text-danger'>&nbsp;*</span></label>
                                     </div>
                                     <input type="number"
                                            class="form-control"
@@ -62,69 +74,68 @@
                                            required>
                                 </div>
                             </div>
+
                             <div class="form-group">
                                 <Label>Average Rate Period:<span class='text-danger'>&nbsp;*</span></label><br/>
-                                <div class="form-check form-check-inline">
-                                    <input class="form-check-input"
-                                           type="radio"
-                                           id="dailyAverage"
-                                           name="period"
-                                           value="Daily"
-                                           required
-                                        @include('modules.checkedoption', [
+                                <div class="btn-group btn-group-toggle justify-content-center" data-toggle="buttons">
+                                    <label class="btn btn-secondary">
+                                        <input
+                                            type="radio"
+                                            id="dailyAverage"
+                                            name="period"
+                                            value="Daily"
+                                            required
+                                            @include('modules.checkedoption', [
+                                                'field' => 'period',
+                                                'value' => 'Daily'])> Daily
+                                    </label>
+                                    <label class="btn btn-secondary">
+                                        <input
+                                            type="radio"
+                                            id="weeklyAverage"
+                                            name="period"
+                                            required
+                                            value="Weekly"
+                                            @include('modules.checkedoption', [
+                                                'field' => 'period',
+                                                'value' => 'Weekly'])> Weekly
+                                    </label>
+                                    <label class="btn btn-secondary">
+                                        <input
+                                            type="radio"
+                                            id="monthlyAverage"
+                                            name="period"
+                                            required
+                                            value="Monthly"
+                                            @include('modules.checkedoption', [
+                                               'field' => 'period',
+                                              'value' => 'Monthly'])> Monthly
+                                    </label>
+                                    <label class="btn btn-secondary">
+                                        <input
+                                            type="radio"
+                                            id="sixMonthAverage"
+                                            name="period"
+                                            required
+                                            value="Six Month"
+                                            @include('modules.checkedoption', [
+                                                'field' => 'period',
+                                                'value' => 'Six Month'])> Six Months
+                                    </label>
+                                    <label class="btn btn-secondary">
+                                        <input
+                                            type="radio"
+                                            id="yearlyAverage"
+                                            name="period"
+                                            required
+                                            value="Yearly"
+                                            @include('modules.checkedoption', [
                                             'field' => 'period',
-                                            'value' => 'Daily'])>
-                                    <label class="form-check-label" for="dailyAverage">Daily</label>
-                                </div>
-                                <div class="form-check form-check-inline">
-                                    <input class="form-check-input"
-                                           type="radio"
-                                           id="weeklyAverage"
-                                           name="period"
-                                           required
-                                           value="Weekly"
-                                        @include('modules.checkedoption', [
-                                            'field' => 'period',
-                                            'value' => 'Weekly'])>
-                                    <label class="form-check-label" for="weeklyAverage">Weekly</label>
-                                </div>
-                                <div class="form-check form-check-inline">
-                                    <input class="form-check-input"
-                                           type="radio"
-                                           id="monthlyAverage"
-                                           name="period"
-                                           required
-                                           value="Monthly"
-                                        @include('modules.checkedoption', [
-                                           'field' => 'period',
-                                          'value' => 'Monthly'])>
-                                    <label class="form-check-label" for="monthlyAverage">Monthly</label>
-                                </div>
-                                <div class="form-check form-check-inline">
-                                    <input class="form-check-input"
-                                           type="radio"
-                                           id="sixMonthAverage"
-                                           name="period"
-                                           required
-                                           value="Six Month"
-                                        @include('modules.checkedoption', [
-                                            'field' => 'period',
-                                            'value' => 'Six Month'])>
-                                    <label class="form-check-label" for="sixMonthAverage">Six Months</label>
-                                </div>
-                                <div class="form-check form-check-inline">
-                                    <input class="form-check-input"
-                                           type="radio"
-                                           id="yearlyAverage"
-                                           name="period"
-                                           required
-                                           value="Yearly"
-                                        @include('modules.checkedoption', [
-                                        'field' => 'period',
-                                        'value' => 'Yearly'])>
-                                    <label class="form-check-label" for="yearlyAverage">Yearly</label>
+                                            'value' => 'Yearly'])> Yearly
+                                    </label>
                                 </div>
                             </div>
+
                             <div class="form-group text-center">
                                 <button type="submit" name="convert" class="btn btn-outline-primary">Convert</button>
                             </div>
