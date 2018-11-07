@@ -16,9 +16,7 @@ class ForeignExchangeRepository
      */
     private const FIXER_API_BASE_URL = 'http://data.fixer.io/api/';
     private const FIXER_API_TIMESERIES_ENPOINT_URL = 'timeseries';
-    private const FIXER_API_LATEST_ENPOINT_URL = 'latest';
     private const FIXER_API_SYMBOLS_ENPOINT_URL = 'symbols';
-    private const FIXER_API_ACCESS_KEY = '27108040923da4cd86416d7924e9a908';
 
     /*
      * PROPERTIES
@@ -151,7 +149,7 @@ class ForeignExchangeRepository
         $startDate = new \DateTime();
 
         $query = [
-            'access_key' => ForeignExchangeRepository::FIXER_API_ACCESS_KEY,
+            'access_key' => config('fixerio.key'),
             'base' => $this->fromCurrency,
             'symbols' => $this->toCurrency,
             'end_date' => (new \DateTime())->format('Y-m-d')
@@ -191,7 +189,7 @@ class ForeignExchangeRepository
         $endPoint = ForeignExchangeRepository::FIXER_API_SYMBOLS_ENPOINT_URL;
 
         $query = [
-            'access_key' => ForeignExchangeRepository::FIXER_API_ACCESS_KEY
+            'access_key' => config('fixerio.key')
         ];
 
         $endPoint .= ('?' . http_build_query($query));
