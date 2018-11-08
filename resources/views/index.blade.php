@@ -6,7 +6,7 @@
             <div class="col-5">
                 <div class="card shadow-lg rounded">
                     <h3 class="card-header text-center">
-                        <img id="logo"
+                        <img id="logo" alt='{{ config('APP_NAME', 'Currency Converter') }} Logo'
                              src='{{ asset("images/foreignexchange-logo@2x.png") }}'/>{{ config('APP_NAME', 'Currency Converter') }}
                     </h3>
                     <div class="card-body">
@@ -94,8 +94,8 @@
                                             type="radio"
                                             id="weeklyAverage"
                                             name="period"
-                                            required
                                             value="Weekly"
+                                            required
                                             @include('modules.checkedoption', [
                                                 'field' => 'period',
                                                 'value' => 'Weekly'])> Weekly
@@ -105,8 +105,8 @@
                                             type="radio"
                                             id="monthlyAverage"
                                             name="period"
-                                            required
                                             value="Monthly"
+                                            required
                                             @include('modules.checkedoption', [
                                                'field' => 'period',
                                               'value' => 'Monthly'])> Monthly
@@ -116,8 +116,8 @@
                                             type="radio"
                                             id="sixMonthAverage"
                                             name="period"
-                                            required
                                             value="Six Month"
+                                            required
                                             @include('modules.checkedoption', [
                                                 'field' => 'period',
                                                 'value' => 'Six Month'])> Six Months
@@ -127,8 +127,8 @@
                                             type="radio"
                                             id="yearlyAverage"
                                             name="period"
-                                            required
                                             value="Yearly"
+                                            required
                                             @include('modules.checkedoption', [
                                             'field' => 'period',
                                             'value' => 'Yearly'])> Yearly

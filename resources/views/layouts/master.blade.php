@@ -43,7 +43,7 @@
         crossorigin="anonymous"></script>
 
 {{-- App specific JS--}}
-<script type='text/javascript' src='{{ asset("js/foreignexchange.js") }}'></script>
+<script src='{{ asset("js/foreignexchange.js") }}'></script>
 
 {{-- JS specific to a given page/child view can be included via a stack --}}
 @stack('body')
